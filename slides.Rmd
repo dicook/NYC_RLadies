@@ -1,0 +1,134 @@
+---
+title: "Making plots to explore data using R"
+subtitle: "Using wages data in the yowie package"
+author: 
+  - "<br><br>Di Cook, Monash University"
+date: 'NYC R Ladies - Aug 24/25, 2021 <br> Slides: [https://dicook.org/files/NYC_RLadies/slides.html](https://dicook.org/files/NYC_RLadies/slides.html) <br> [https://github.com/dicook/NYC_RLadies/](https://github.com/dicook/NYC_RLadies/)'
+output:
+  xaringan::moon_reader:
+    css: ["mystyle.css", xaringan-themer.css]
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#035AA6", 
+  secondary_color = "#03A696", 
+  background_color = "#002B36", # dark dark blue
+  header_color = "#31b09e",     # light aqua green
+  link_color = "#31b09e",
+  code_inline_color = "#31b09e",
+  code_font_size = "1em",
+  text_color = "#FFF",
+  text_font_google = google_font("Schoolbell"),
+  header_font_google = google_font("Sunshiney"),
+  text_font_size = "2em", 
+  title_slide_background_image = "images/yowie.png",
+  title_slide_background_size = "15%",
+  title_slide_background_position = "99% 1%"
+)
+slides_from_images <- function(
+  path,
+  regexp = NULL,
+  class = "hide-count",
+  background_size = "contain",
+  background_position = "top left"
+) {
+  if (isTRUE(getOption("slide_image_placeholder", FALSE))) {
+    return(glue::glue("Slides to be generated from [{path}]({path})"))
+  }
+  if (fs::is_dir(path)) {
+    imgs <- fs::dir_ls(path, regexp = regexp, type = "file", recurse = FALSE)
+  } else if (all(fs::is_file(path) && fs::file_exists(path))) {
+    imgs <- path
+  } else {
+    stop("path must be a directory or a vector of images")
+  }
+  imgs <- fs::path_rel(imgs, ".")
+  breaks <- rep("\n---\n", length(imgs))
+  breaks[length(breaks)] <- ""
+
+  txt <- glue::glue("
+  class: {class}
+  background-image: url('{imgs}')
+  background-size: {background_size}
+  background-position: {background_position}
+  {breaks}
+  ")
+
+  paste(txt, sep = "", collapse = "")
+}
+```
+
+## About me
+
+Hi!
+I'm Di, which rhymes with .red[t].orange[i].yellow[e]-.green[d].blue[y].purple[e]
+--
+
+<br>I'm a professor at Monash University in Melbourne, Australia
+--
+
+<br>I've been working with R for a long time, and with S before that. It's hard to keep up with the changes. 
+--
+
+<br><br> If you feel comfortable, say hello in the chat and tell me about yourself
+
+---
+# Motivation
+
+Hullman and Gelman (2021) [Designing for Interactive Exploratory Data Analysis Requires Theories of Graphical Inference](https://hdsr.mitpress.mit.edu/pub/w075glo6/release/2)
+
+- Interplay between exploratory data analysis (EDA) and confirmatory data analysis (CDA)
+- Concerns about lack of tools for testing findings in exploratory data analysis, particularly using graphics
+
+# What is EDA, IDA, MD, InfoVis?
+
+---
+background-color: #FFF
+
+`r slides_from_images("images/EDA-CDA")`
+
+---
+# Longitudinal study of wages in the USA
+
+Data is available in the `yowie` package. You can install it using; 
+
+```
+remotes::install_github("numbats/yowie")
+```
+
+`yowie`: .aqua[Y]ears .aqua[O]f .aqua[W]ages to .aqua[I]nvestigate and .aqua[E]xplore 
+
+> Let's get started by opening the `wages.R` file in RStudio 
+
+---
+class: center, middle
+
+# Thanks!
+
+Slides created via the R packages:
+
+[**xaringan**](https://github.com/yihui/xaringan)<br>
+[gadenbuie/xaringanthemer](https://github.com/gadenbuie/xaringanthemer)
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
